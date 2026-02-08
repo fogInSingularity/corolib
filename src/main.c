@@ -35,6 +35,7 @@ void Empty(Coro* coro, void* data) {
 int main() {
     Coro* empty_coro = CoroCreate(Empty, NULL);
     CoroResume(empty_coro);
+    CoroDestroy(empty_coro);
 
     int counter = 0;
 

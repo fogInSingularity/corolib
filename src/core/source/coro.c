@@ -23,11 +23,11 @@ void CoroFuncTrampoline(CoroCtx* ctx) {
 
     coro->coro_func(coro, coro->data);
 
-    // assert(!"Should not reach this point");
+    CoroStop(coro);
 }
 
 // should not be placed in include
-void CoroExit(Coro* coro) {
+void CoroExit(Coro* coro) { // Extra stack protection
 #if defined (CORO_SOFT_FALL)
     CoroStop(coro);
 #else 
@@ -61,9 +61,7 @@ Coro* CoroCreate(CoroFunc coro_func, void* data) {
 }
 
 void CoroDestroy(Coro* coro) {
-    assert(coro != NULL);
-
-    free(coro->call_stack);
+    if (coro != NULL) { free(coro->call_stack); }
     free(coro);
 }
 
