@@ -1,0 +1,11 @@
+build
+*.log
+compile_commands.json
+.cache
+perf.data
+perf.data.old
+
+# tests:
+*.o
+*.x
+tests/build
