@@ -4,6 +4,6 @@
 #include "core/coro_def_internal.h"
 
 void SetupCtx(Coro* coro);
-void SwapCxt(CoroCtx* other);
+void SwapCtx(CoroCtx* other);
 
 #endif // CTX_INTERNAL_H_

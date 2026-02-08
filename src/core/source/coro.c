@@ -29,7 +29,7 @@ void CoroFuncTrampoline(CoroCtx* ctx) {
 // should not be placed in include
 void CoroExit(Coro* coro) {
 #if defined (CORO_SOFT_FALL)
-    CoroYield(coro);
+    CoroStop(coro);
 #else 
     (void)coro;
     fprintf(stderr, "Coroutine execution reached %s\n", __func__);
@@ -60,7 +60,7 @@ Coro* CoroCreate(CoroFunc coro_func, void* data) {
     return coro;
 }
 
-void CoroDestory(Coro* coro) {
+void CoroDestroy(Coro* coro) {
     assert(coro != NULL);
 
     free(coro->call_stack);
@@ -72,18 +72,42 @@ void CoroYield(Coro* coro) {
 
     coro->state = kCoroStateSuspended;
 
-    SwapCxt(&coro->ctx_buffer);
+    SwapCtx(&coro->ctx_buffer);
 }
 
 void CoroResume(Coro* coro) {
     assert(coro != NULL);
 
+    // FIXME: should have some policy for this case
+    if (CoroDone(coro)) { return; } 
+
     coro->state = kCoroStateRunning;
 
-    SwapCxt(&coro->ctx_buffer);
+    SwapCtx(&coro->ctx_buffer);
 }
 
-CoroState CoroCurrentState(Coro* coro) { return coro->state; }
-_Bool CoroDone(Coro* coro) { return coro->state == kCoroStateFinished; }
-void CoroStop(Coro* coro) { coro->state = kCoroStateFinished; }
-size_t CoroId(Coro* coro) { return coro->id; }
+void CoroStop(Coro* coro) { 
+    assert(coro != NULL);
+
+    coro->state = kCoroStateFinished; 
+
+    SwapCtx(&coro->ctx_buffer);
+}
+
+CoroState CoroCurrentState(Coro* coro) { 
+    assert(coro != NULL);
+
+    return coro->state; 
+}
+
+_Bool CoroDone(Coro* coro) { 
+    assert(coro != NULL);
+
+    return coro->state == kCoroStateFinished; 
+}
+
+size_t CoroId(Coro* coro) { 
+    assert(coro != NULL);
+
+    return coro->id; 
+}

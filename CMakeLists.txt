@@ -16,7 +16,6 @@ target_include_directories(coro
 
 target_link_libraries(coro
     INTERFACE
-        co-flags
         core
 )
 

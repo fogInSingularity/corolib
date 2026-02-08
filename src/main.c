@@ -27,7 +27,15 @@ void PrintNumbers(Coro* coro, void* data) {
     }
 }
 
+void Empty(Coro* coro, void* data) {
+    (void)coro;
+    (void)data;
+}
+
 int main() {
+    Coro* empty_coro = CoroCreate(Empty, NULL);
+    CoroResume(empty_coro);
+
     int counter = 0;
 
     Coro* count_coro = CoroCreate(GenerateNumbers, &counter);
@@ -37,6 +45,6 @@ int main() {
         CoroResume(print_coro);
     }
 
-    CoroDestory(count_coro);
-    CoroDestory(print_coro);
+    CoroDestroy(count_coro);
+    CoroDestroy(print_coro);
 }

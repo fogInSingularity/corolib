@@ -66,8 +66,3 @@ target_link_options(co-flags
             # -flto
         >
 )
-
-target_compile_definitions(co-flags INTERFACE
-    $<$<CONFIG:Release>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO>
-    $<$<CONFIG:Debug>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG>
-)

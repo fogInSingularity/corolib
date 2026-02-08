@@ -21,6 +21,7 @@ kR15Idx = 6
 
 .section .data
 
+# FIXME: want work in mutli thread
 ctx_swp_buffer:
     .zero (kRegSize * kNSavedRegs)
 
@@ -30,8 +31,8 @@ ctx_swp_buffer:
 .extern CoroExit
 
 # rdi -> CoroCtx* other
-.global SwapCxt
-SwapCxt:
+.global SwapCtx
+SwapCtx:
     # store cur ctx to ctx_swp_buffer
     lea rax, [rip + ctx_swp_buffer]
 

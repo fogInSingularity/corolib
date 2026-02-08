@@ -10,14 +10,14 @@ extern "C" {
 #include "core/coro_def.h"
 
 Coro* CoroCreate(CoroFunc coro_func, void* data);
-void CoroDestory(Coro* coro);
+void CoroDestroy(Coro* coro);
 
 void CoroYield(Coro* coro);
 void CoroResume(Coro* coro);
+void CoroStop(Coro* coro);
 
 CoroState CoroCurrentState(Coro* coro);
 _Bool CoroDone(Coro* coro);
-void CoroStop(Coro* coro);
 size_t CoroId(Coro* coro);
 
 #if defined(__cplusplus)

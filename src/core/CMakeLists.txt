@@ -16,3 +16,8 @@ target_link_libraries(core
     PRIVATE
         co-flags
 )
+
+target_compile_definitions(core
+    PRIVATE
+        CORO_SOFT_FALL
+)
